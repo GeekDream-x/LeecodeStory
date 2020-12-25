@@ -36,24 +36,55 @@
 
 
 def findNumberIn2DArray(self, matrix: [[int]], target: int) -> bool:
-
     # 1
     # return (target in np.array(matrix))
 
     # 2
+    # if matrix == [] or matrix == [[]]:
+    #     return False
+    #
+    # n, m = len(matrix), len(matrix[0])
+    # for i in range(n):
+    #     min_num, max_num = matrix[i][0], matrix[i][-1]
+    #
+    #     if target >= min_num and target <= max_num:
+    #         # 可能在这个list
+    #         for j in range(m):
+    #             if matrix[i][j] == target:
+    #                 return True
+    #
+    # return False
+
+    # 3 官方解法  time:O(n+m)  space(1)
     if matrix == [] or matrix == [[]]:
         return False
 
-    n, m = len(matrix), len(matrix[0])
-    for i in range(n):
-        min_num, max_num = matrix[i][0], matrix[i][-1]
+    i, j, rows = 0, len(matrix[0]) - 1, len(matrix)
+    corner = matrix[i][j]
 
-        if target >= min_num and target <= max_num:
-            # 可能在这个list
-            for j in range(m):
-                if matrix[i][j] == target:
-                    return True
+    while target != corner:
 
+        if target > corner:
+            i += 1
+        else:
+            j -= 1
+
+        if i == rows or j < 0:
+            return False
+
+        corner = matrix[i][j]
+
+    return True
+
+
+    # 4 简洁 这是从左下角出发
+    i, j = len(matrix) - 1, 0
+    while i >= 0 and j < len(matrix[0]):
+        if matrix[i][j] > target: i -= 1
+        elif matrix[i][j] < target: j += 1
+        else: return True
     return False
 
-    # 3
+'''
+从左下出发快还是从右上出发快，取决于具体的matrix和target.同样的数据，两者运行时间可能相差10ms
+'''

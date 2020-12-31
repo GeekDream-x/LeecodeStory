@@ -26,8 +26,19 @@ F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
 '''
 
 
+# # 1 不记录小问题结果 每次都要重新计算
+# class Solution:
+#     def fib(self, n: int) -> int:
+#         if n == 0: return 0
+#         if n == 1: return 1
+#         return (self.fib(n - 1) + self.fib(n - 2)) % 1000000007
+
+
+# 2 32/14.7   93/14  记录了子问题结果，再遇到直接从dic中查询即可
 class Solution:
+    dic = {0: 0, 1: 1}
+
     def fib(self, n: int) -> int:
-        if n == 0: return 0
-        if n == 1: return 1
-        return (self.fib(n - 1) + self.fib(n - 2)) % 1000000007
+        if n not in self.dic:
+            self.dic[n] = (self.fib(n - 1) + self.fib(n - 2)) % 1000000007
+        return self.dic[n]

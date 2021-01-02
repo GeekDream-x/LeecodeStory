@@ -21,11 +21,10 @@
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 '''
 
-# 1
+# 1 深度优先  56/17  67/9 -----改为只向下向右----> 44/15 90/31
 class Solution:
     def movingCount(self, m: int, n: int, k: int) -> int:
 
-        # 1 56/17  67/9
         def biggerThanK(x, y, k):
             return (x % 10 + y % 10 + (x // 10) % 10 + (y // 10) % 10 + x // 100 + y // 100) > k
 
@@ -33,8 +32,8 @@ class Solution:
             if not 0 <= i < m or not 0 <= j < n or biggerThanK(i, j, k) or vis[i][j] == 1: return 0
 
             vis[i][j] = 1
-            nextChange = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-
+            # nextChange = [(1,0),(-1,0), (0,1),(0,-1)]
+            nextChange = [(1, 0), (0, 1)]
             for tup in nextChange:
                 dfs(i + tup[0], j + tup[1], k, vis)
 
@@ -45,6 +44,38 @@ class Solution:
         dfs(0, 0, k, vis)
         return sum([sum(lis) for lis in vis])
 
+
+# 2 广度优先算法 136/15  11/26  利用栈来实现
+
+# def digitsum(n):
+#     ans = 0
+#     while n:
+#         ans += n % 10
+#         n //= 10
+#     return ans
+#
+# class Solution:
+#     def movingCount(self, m: int, n: int, k: int) -> int:
+#         from queue import Queue
+#         q = Queue()
+#         q.put((0, 0))
+#         s = set()
+#         while not q.empty():
+#             x, y = q.get()
+#             if (x, y) not in s and 0 <= x < m and 0 <= y < n and digitsum(x) + digitsum(y) <= k:
+#                 s.add((x, y))
+#                 for nx, ny in [(x + 1, y), (x, y + 1)]:
+#                     q.put((nx, ny))
+#         return len(s)
+
+
+
 s = Solution()
 
 print(s.movingCount(1,2,1))
+
+
+'''
+1.只需向下向右即可，因为所有点都是连通的
+2.
+'''

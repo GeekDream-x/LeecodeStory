@@ -74,7 +74,7 @@
 #         return dp[n % 3]
 
 
-# 4 32/14  95/14  找规律，尽可能分出更多的3     时间复杂度：O(1)。空间复杂度：O(1)。
+# 4 32/14  95/14  找规律，尽可能分出更多的3，贪心算法     时间复杂度：O(1)。空间复杂度：O(1)。
 # 理论推导：https://leetcode-cn.com/problems/integer-break/solution/343-zheng-shu-chai-fen-tan-xin-by-jyd/
 class Solution:
     def cuttingRope(self, n: int) -> int:

@@ -36,7 +36,8 @@
 #             max_i = 0
 #             for j in range(1, i // 2 + 1):
 
-#                 max_ij = max(j * maxProducts[i - j], j * (i - j))
+#                 #max_ij = max(j * maxProducts[i - j], j * (i - j))
+#                 max_ij = max(j, maxProducts[j]) * max(i-j, maxProducts[i-j])
 
 #                 if max_ij > max_i:
 #                     max_i = max_ij
@@ -61,16 +62,30 @@
 
 # 我们发现任何大于 3的数都可以拆分为数字 1，2，3的和，且它们对 33 的余数总是 0，1，2，因此我们可以仅用 dp[0]，dp[1]，dp[2] 表示所有大于 3 的值，这样空间复杂度可降到 O(1)。
 
+# class Solution:
+#     def cuttingRope(self, n: int) -> int:
+#         dp = [0, 1, 1]
+#         for i in range(3, n + 1):
+#             dp[i % 3] = max(
+#                 1 * max(i - 1, dp[(i - 1) % 3]),
+#                 2 * max(i - 2, dp[(i - 2) % 3]),
+#                 3 * max(i - 3, dp[(i - 3) % 3])
+#             )
+#         return dp[n % 3]
+
+
+# 4 32/14  95/14  找规律，尽可能分出更多的3     时间复杂度：O(1)。空间复杂度：O(1)。
+# 理论推导：https://leetcode-cn.com/problems/integer-break/solution/343-zheng-shu-chai-fen-tan-xin-by-jyd/
 class Solution:
     def cuttingRope(self, n: int) -> int:
-        dp = [0, 1, 1]
-        for i in range(3, n + 1):
-            dp[i % 3] = max(
-                1 * max(i - 1, dp[(i - 1) % 3]),
-                2 * max(i - 2, dp[(i - 2) % 3]),
-                3 * max(i - 3, dp[(i - 3) % 3])
-            )
-        return dp[n % 3]
+        if n < 4: return n - 1
+        a, b = n // 3, n % 3
+        if b == 0:
+            return pow(3, a)
+        elif b == 1:
+            return pow(3, a - 1) * 4
+        else:
+            return pow(3, a) * 2
 
 
 

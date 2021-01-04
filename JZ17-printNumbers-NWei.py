@@ -54,66 +54,106 @@ n 为正整数
 
 
 # 4 112/20  9/6    解决大数问题
+# class Solution:
+#     def printNumbers(self, n: int) -> [int]:
+#         def dfs(x):
+#             if x == n:
+#                 s = ''.join(num[self.start:])
+#                 if s != '0': res.append(int(s))
+#                 if n - self.start == self.nine: self.start -= 1
+#                 return
+#             for i in range(10):
+#                 if i == 9: self.nine += 1
+#                 num[x] = str(i)
+#                 dfs(x + 1)
+#             self.nine -= 1
+#
+#         num, res = ['0'] * n, []
+#         self.nine = 0
+#         self.start = n - 1
+#         dfs(0)
+#         return res
+
+
+
+# 5 对4注释解读
+# class Solution:
+#     # easy solution witout thinking about large number
+#     '''
+#     def myPow(self, x: float, n: int) -> float:
+#         if x==0:  return 0        # 1. 避免 幂为负数 的时候的，将其变换到分母出错
+#         if n<0:                    #  2. 幂为负数时，将其准换为正数，因此，底数 x 需要变成 1 / x
+#             x = 1 / x
+#             n = -n
+#         res=1
+#         while n:                    # 3. 当幂等于0的时候，则跳出循环，因为任何数的 0 次幂 等于1，res乘1 等于其本身
+#             if n & 1: res *= x     # 4. 奇数
+#             x *= x                   # 5. 平方项
+#             n >>= 1                 # 6. 将至 n // 2
+#         return res
+#
+#     def printNumbers(self, n: int) -> List[int]:
+#          return [i for i in range(1,self.myPow(10,n))]
+#     '''
+#
+#     def printNumbers(self, n: int) -> [int]:
+#         def dfs(x):  # x 代表的是 第x层： 0 <= x < n
+#
+#             if x == n:  # 最多是 n-1 层（从0开始计数），如果到达了第 n 层，则代表可以返回
+#                 s = ''.join(num[self.start:])  # 将一维nums 数组中的元素，从左边界start开始拼接成字符串 s
+#                 if s != '0': res.append(int(s))  # 如果 s == “ 0 ”, 则忽略；否则将其append 到结果数组res中
+#                 if n - self.start == self.nine: self.start -= 1  # 当前满足边界向前的公式，n- start== nine(nine: s中9的数量)，则左边界左移一步。
+#                 return  # 只有在n层返回到第n-1层时才会用到，其他的从 n-1 返回到 n-2层 不是通过这个路径，而是执行完最后一行，默认return
+#
+#             for i in range(10):
+#                 if i == 9: self.nine += 1  # 如果当前遍历到9，则 9 会增加到字符串中，于是nine 加 1
+#                 num[x] = str(i)  # 当前层的值 固定为 str(i)
+#                 dfs(x + 1)  # 进入下一层进行全排列遍历
+#             # 从 n-1 返回到 n-2层，n-2层到 n-3层时，才会进行nine-1 的操作；因为从 n层返回到 n-1层并没有增加数字的操作，只有拼接
+#             self.nine -= 1
+#
+#         num, res = ["0"] * n, []  # 创建大小为 n 层的 中间变量数组 num; 空结果数组res
+#         # 初始化
+#         self.nine = 0
+#         self.start = n - 1  # 由于是从 0 开始，递增遍历，于是左边界初始化为最右 ,即 n-1
+#         dfs(0)  # 从 1 开始
+#         return res
+
+
+# 6 自己重写4
 class Solution:
     def printNumbers(self, n: int) -> [int]:
+
         def dfs(x):
             if x == n:
+                # 给最后一位数字赋好值了
+                # res.append(num[self.start:])
                 s = ''.join(num[self.start:])
-                if s != '0': res.append(int(s))
+                res.append(int(s))
                 if n - self.start == self.nine: self.start -= 1
+
                 return
-            for i in range(10):
-                if i == 9: self.nine += 1
-                num[x] = str(i)
-                dfs(x + 1)
+            else:
+                # 还没到最后一位, 则给当前位置赋值
+                for i in range(10):
+                    # num[x] = i
+                    num[x] = str(i)
+                    if i == 9: self.nine += 1
+                    dfs(x + 1)
+
+            # self.start -= 1
             self.nine -= 1
 
         num, res = ['0'] * n, []
+        print("!!!", num)
         self.nine = 0
         self.start = n - 1
+
         dfs(0)
-        return res
 
-# 5 对4注释解读
-class Solution:
-    # easy solution witout thinking about large number
-    '''
-    def myPow(self, x: float, n: int) -> float:
-        if x==0:  return 0        # 1. 避免 幂为负数 的时候的，将其变换到分母出错
-        if n<0:                    #  2. 幂为负数时，将其准换为正数，因此，底数 x 需要变成 1 / x
-            x = 1 / x
-            n = -n
-        res=1
-        while n:                    # 3. 当幂等于0的时候，则跳出循环，因为任何数的 0 次幂 等于1，res乘1 等于其本身
-            if n & 1: res *= x     # 4. 奇数
-            x *= x                   # 5. 平方项
-            n >>= 1                 # 6. 将至 n // 2
-        return res
+        return res[1:]
 
-    def printNumbers(self, n: int) -> List[int]:
-         return [i for i in range(1,self.myPow(10,n))]
-    '''
 
-    def printNumbers(self, n: int) -> [int]:
-        def dfs(x):  # x 代表的是 第x层： 0 <= x < n
+s = Solution()
 
-            if x == n:  # 最多是 n-1 层（从0开始计数），如果到达了第 n 层，则代表可以返回
-                s = ''.join(num[self.start:])  # 将一维nums 数组中的元素，从左边界start开始拼接成字符串 s
-                if s != '0': res.append(int(s))  # 如果 s == “ 0 ”, 则忽略；否则将其append 到结果数组res中
-                if n - self.start == self.nine: self.start -= 1  # 当前满足边界向前的公式，n- start== nine(nine: s中9的数量)，则左边界左移一步。
-                return  # 只有在n层返回到第n-1层时才会用到，其他的从 n-1 返回到 n-2层 不是通过这个路径，而是执行完最后一行，默认return
-
-            for i in range(10):
-                if i == 9: self.nine += 1  # 如果当前遍历到9，则 9 会增加到字符串中，于是nine 加 1
-                num[x] = str(i)  # 当前层的值 固定为 str(i)
-                dfs(x + 1)  # 进入下一层进行全排列遍历
-            # 从 n-1 返回到 n-2层，n-2层到 n-3层时，才会进行nine-1 的操作；因为从 n层返回到 n-1层并没有增加数字的操作，只有拼接
-            self.nine -= 1
-
-        num, res = ["0"] * n, []  # 创建大小为 n 层的 中间变量数组 num; 空结果数组res
-        # 初始化
-        self.nine = 0
-        self.start = n - 1  # 由于是从 0 开始，递增遍历，于是左边界初始化为最右 ,即 n-1
-        dfs(0)  # 从 1 开始
-        return res
-
+print(s.printNumbers(2))

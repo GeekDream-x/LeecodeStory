@@ -136,7 +136,11 @@ p 可能为空，且只包含从 a-z 的小写字母以及字符 . 和 *�
 #             return True
 #         return False
 
-# 2
+# 2  动态规划 48/14.8    95/20
+#时间复杂度 O(MN) ： 其中 M,N 分别为 s 和 p 的长度，状态转移需遍历整个 dp 矩阵。
+#空间复杂度 O(MN) ： 状态矩阵 dp 使用 O(MN) 的额外空间。
+
+
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         m, n = len(s) + 1, len(p) + 1
@@ -151,3 +155,17 @@ class Solution:
                     dp[i - 1][j - 1] and (p[j - 1] == '.' or s[i - 1] == p[j - 1])
         return dp[-1][-1]
 
+
+# 3 回溯法 1252/14.8  12/18
+# https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/solution/hui-su-dong-tai-gui-hua-by-ml-zimingmeng/
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        if not p: return not s
+        # 第一个字母是否匹配
+        first_match = bool(s and p[0] in {s[0],'.'})
+        # 如果 p 第二个字母是 *
+        if len(p) >= 2 and p[1] == "*":
+            return self.isMatch(s, p[2:]) or \
+            first_match and self.isMatch(s[1:], p)
+        else:
+            return first_match and self.isMatch(s[1:], p[1:])

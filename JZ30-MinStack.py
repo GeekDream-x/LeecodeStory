@@ -94,6 +94,28 @@ class MinStack:
     def min(self) -> int:
         return self.min_stack[-1]
 
+# 3 大佬简介版  56/18   98/15
+class MinStack:
+    def __init__(self):
+        self.A, self.B = [], []
+
+    def push(self, x: int) -> None:
+        self.A.append(x)
+        if not self.B or self.B[-1] >= x:
+            self.B.append(x)
+
+    def pop(self) -> None:
+        if self.A.pop() == self.B[-1]:
+            self.B.pop()
+
+    def top(self) -> int:
+        return self.A[-1]
+
+    def min(self) -> int:
+        return self.B[-1]
+
+
+
 # Your MinStack object will be instantiated and called as such:
 # obj = MinStack()
 # obj.push(x)

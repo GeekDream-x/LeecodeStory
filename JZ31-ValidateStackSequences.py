@@ -69,7 +69,7 @@ pushed 是 popped 的排列。
 
 # 2 大佬 建立在两个list长度相等的基础上，也就保证了i不会越界   44/15  67/20
 class Solution:
-    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+    def validateStackSequences(self, pushed: [int], popped: [int]) -> bool:
         stack, i = [], 0
         for num in pushed:
             stack.append(num)  # num 入栈

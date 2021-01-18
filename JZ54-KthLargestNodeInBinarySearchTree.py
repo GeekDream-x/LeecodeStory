@@ -43,14 +43,16 @@
 #         self.right = None
 
 
+# 1 自己后序遍历
 class Solution:
     def kthLargest(self, root: TreeNode, k: int) -> int:
 
         def MirrorMidRootIterate(root):
 
-            if root == None: return None
+            if not root: return None
 
             MirrorMidRootIterate(root.right)
+            if self.count == k: return
             self.count += 1
             if self.count == k: self.res = root.val
             MirrorMidRootIterate(root.left)
@@ -59,3 +61,36 @@ class Solution:
         MirrorMidRootIterate(root)
 
         return self.res
+
+# 2大佬递归
+# 自己的看法解释一下为什么判断两次self.k : 可以试想一下当k == 1的时候不会返回，然后k减小1，然后遇到第二个self.k的判断，这个时候找到了正确的值。接着进入dfs(root.right),这个时候的self.k就已经是0了，就return返回，所以下面的递归就不会在执行了。
+# class Solution:
+#     def kthLargest(self, root: TreeNode, k: int) -> int:
+#         def dfs(root):
+#             if not root: return
+#             dfs(root.right)
+#             if self.k == 0: return
+#             self.k -= 1
+#             if self.k == 0: self.res = root.val
+#             dfs(root.left)
+
+#         self.k = k
+#         dfs(root)
+#         return self.res
+
+
+# 3 迭代实现
+
+# class Solution:
+#     def kthLargest(self, root: TreeNode, k: int) -> int:
+#         # 右根左 非递归遍历
+#         stack,p,count = [],root,0
+#         while p or stack:
+#             while p:
+#                 stack.append(p)
+#                 p = p.right
+
+#             curr = stack.pop()
+#             count += 1
+#             if count == k:return curr.val
+#             p = curr.left

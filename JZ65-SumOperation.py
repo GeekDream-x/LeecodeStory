@@ -20,13 +20,11 @@ a, b 均可能是负数或 0
 '''
 
 
+# 1 大佬 32/15  92/10
 class Solution:
     def add(self, a: int, b: int) -> int:
-        while b:
-            sum = a ^ b
-            carry = (a & b) << 1
-
-            a = sum
-            b = carry
-
-        return a
+        x = 0xffffffff
+        a, b = a & x, b & x
+        while b != 0:
+            a, b = (a ^ b), (a & b) << 1 & x
+        return a if a <= 0x7fffffff else ~(a ^ x)

@@ -51,38 +51,34 @@
 '''
 
 
+# 1 自己 24/14.8   100/31
 class Solution:
     def strToInt(self, str: str) -> int:
         def isNum(char):
             return True if ord(char) >= 48 and ord(char) <= 57 else False
 
         str = str.strip()
-        if not str or (ord(str[0]) != 45 and not isNum(str[0]) and ord(str[0]) != 43): return 0
-        numSubstr = ""
-        NorPFlag = False
+        numSubstr, NorPFlag = "", False
 
         for char in str:
-            if not isNum(char) and char != '-' and not numSubstr:
-                print("S")
-                return 0
+
             if (char == '-' or char == '+'):
                 if not NorPFlag and not numSubstr:
-                    # 遇到负号，当前面没遇到过负号和数字时，为有效负号
+                    # 遇到符号，当前面没遇到过符号和数字时，为有效符号
                     if char == '-':
                         numSubstr += char
                     NorPFlag = True
                 else:
-                    return 0
+                    break
             elif isNum(char):
-                # 遇到数字或小数点
+                # 遇到数字
                 numSubstr += char
-            elif char == '+':
-                continue
-            elif char == ' ' or char == '.':
-                # 遇到中间的空格，结束遍历
+
+            else:
+                # 遇到其他字符，结束遍历
                 break
 
         if not numSubstr or numSubstr == '-': return 0
 
         res = int(numSubstr)
-        return min(res, 2 ** 31 - 1) if res > 0 else max(res, -2 ** 31) 
+        return min(res, 2 ** 31 - 1) if res > 0 else max(res, -2 ** 31)

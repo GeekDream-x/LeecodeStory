@@ -105,7 +105,7 @@ class Solution:
         return ancestor
 
 
-# 4 大佬递归
+# 4 大佬递归  O(n)O(1)
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         if root.val < p.val and root.val < q.val:

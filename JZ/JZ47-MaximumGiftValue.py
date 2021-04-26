@@ -60,21 +60,7 @@
 class Solution:
     def maxValue(self, grid: List[List[int]]) -> int:
 
-        # m, n = len(grid), len(grid[0])
-        # wealth = [[0 for _ in range(n)] for _ in range(m)]
-        # wealth[0][0] = grid[0][0]
-        # # 直接填充第一列和第一行
-        # for i in range(1,m):
-        #     wealth[i][0] = grid[i][0] + wealth[i-1][0]
-        # for j in range(1,n):
-        #     wealth[0][j] = grid[0][j] + wealth[0][j-1]
 
-        # # 从（1，1）开始按行填充
-        # for i in range(1, m):
-        #     for j in range(1, n):
-        #         wealth[i][j] = max(wealth[i-1][j], wealth[i][j-1]) + grid[i][j]
-
-        # return wealth[-1][-1]
 
         m, n = len(grid), len(grid[0])
 
